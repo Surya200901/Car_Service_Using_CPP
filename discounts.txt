@@ -1,1 +1,1 @@
-1|Zero Discount|0|No discount
+2|New Year Offer|2|New Year Discount

@@ -103,8 +103,25 @@ void addServiceInteractive() {
     auto list = loadServices();
     ServiceItem s;
     s.id = nextServiceId();
-    std::cout << "Enter service name: "; std::getline(std::cin, s.name);
-    std::cout << "Enter price: "; std::cin >> s.price; std::cin.ignore();
+    std::cout << "Enter service name: ";
+    std::getline(std::cin, s.name);
+    
+    while (true) {
+        std::cout << "Enter price: ";
+        std::string input;
+        std::getline(std::cin, input); // Read input as string
+        std::istringstream iss(input);
+        double price;
+        if (iss >> price && iss.eof() && price >= 0) { // Ensure valid number and no trailing characters
+            s.price = price;
+            break; // Valid input, exit loop
+        } else {
+            std::cout << "Invalid price. Please enter a valid number (>= 0).\n";
+            std::cin.clear(); // Clear error state
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear input buffer
+        }
+    }
+    
     list.push_back(s);
     saveServices(list);
     std::cout << "Service added with ID: " << s.id << "\n";
@@ -122,17 +139,38 @@ void viewServices() {
 void updateService() {
     auto list = loadServices();
     std::cout << "Enter service ID to update: ";
-    int id; std::cin >> id; std::cin.ignore();
+    int id;
+    while (!(std::cin >> id)) {
+        std::cout << "Invalid ID. Please enter a valid integer: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    std::cin.ignore(); // Clear newline after valid ID input
+
     for (auto &s : list) {
         if (s.id == id) {
             std::cout << "Enter new name (leave blank to keep): ";
-            std::string tmp; std::getline(std::cin, tmp); if (!tmp.empty()) s.name = tmp;
+            std::string tmp;
+            std::getline(std::cin, tmp);
+            if (!tmp.empty()) s.name = tmp;
+
             std::cout << "Enter new price (0 to keep): ";
-            double p; std::cin >> p; std::cin.ignore();
-            if (p > 0) s.price = p;
-            saveServices(list);
-            std::cout << "Service updated.\n";
-            return;
+            while (true) {
+                std::string input;
+                std::getline(std::cin, input); // Read input as string
+                std::istringstream iss(input);
+                double p;
+                if (input.empty() || (iss >> p && iss.eof() && p >= 0)) { // Allow empty input or valid number
+                    if (!input.empty()) s.price = p; // Update price only if input is not empty and valid
+                    saveServices(list);
+                    std::cout << "Service updated.\n";
+                    return;
+                } else {
+                    std::cout << "Invalid price. Please enter a valid number (>= 0) or 0 to keep: ";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                }
+            }
         }
     }
     std::cout << "Service not found.\n";
