@@ -18,6 +18,11 @@ const std::string SERVICES_FILE = "services.txt";
 const std::string HISTORY_FILE = "service_history.txt";
 #endif
 
+/**
+ * @brief Determines the next available service ID by finding the maximum ID in the services file and incrementing it.
+ * @return int The next available service ID.
+ * @note Reads from SERVICES_FILE and handles malformed or empty lines gracefully.
+ */
 int nextServiceId() {
     std::ifstream ifs(SERVICES_FILE);
     int maxId = 0; std::string ln;
@@ -33,6 +38,11 @@ int nextServiceId() {
     return maxId + 1;
 }
 
+/**
+ * @brief Determines the next available service history ID by finding the maximum ID in the history file and incrementing it.
+ * @return int The next available service history ID.
+ * @note Reads from HISTORY_FILE and handles malformed or empty lines gracefully.
+ */
 int nextHistoryId() {
     std::ifstream ifs(HISTORY_FILE);
     int maxId = 0; std::string ln;
@@ -48,6 +58,11 @@ int nextHistoryId() {
     return maxId + 1;
 }
 
+/**
+ * @brief Loads all services from the services file into a vector.
+ * @return std::vector<ServiceItem> A vector containing all valid service records.
+ * @note Skips empty or malformed lines in the file.
+ */
 std::vector<ServiceItem> loadServices() {
     std::vector<ServiceItem> list;
     std::ifstream ifs(SERVICES_FILE);
@@ -72,6 +87,11 @@ std::vector<ServiceItem> loadServices() {
     return list;
 }
 
+/**
+ * @brief Saves a list of services to the services file, ensuring unique IDs.
+ * @param list A vector of ServiceItem objects to save.
+ * @note Overwrites the existing file and keeps only the first occurrence of each service ID.
+ */
 void saveServices(const std::vector<ServiceItem>& list) {
     std::map<int, ServiceItem> unique;
     for (const auto& s : list) {
@@ -86,6 +106,10 @@ void saveServices(const std::vector<ServiceItem>& list) {
     }
 }
 
+/**
+ * @brief Ensures default services are present in the services file.
+ * @note Adds predefined services (e.g., Oil Change, General Service) if the file is empty and saves them.
+ */
 void ensureDefaultServices() {
     auto list = loadServices();
     if (!list.empty()) return;
@@ -99,6 +123,10 @@ void ensureDefaultServices() {
     saveServices(list);
 }
 
+/**
+ * @brief Interactively adds a new service to the services file.
+ * @note Prompts for service name and price, validates price input, assigns a new ID, and saves the updated list.
+ */
 void addServiceInteractive() {
     auto list = loadServices();
     ServiceItem s;
@@ -127,6 +155,10 @@ void addServiceInteractive() {
     std::cout << "Service added with ID: " << s.id << "\n";
 }
 
+/**
+ * @brief Displays all services in a simple list format.
+ * @note Ensures default services exist, then shows ID, name, and price for each service.
+ */
 void viewServices() {
     ensureDefaultServices();
     auto list = loadServices();
@@ -136,6 +168,10 @@ void viewServices() {
     }
 }
 
+/**
+ * @brief Updates an existing service's details interactively.
+ * @note Prompts for a service ID and allows updating name and price. Empty name or zero price inputs preserve existing values.
+ */
 void updateService() {
     auto list = loadServices();
     std::cout << "Enter service ID to update: ";
@@ -176,6 +212,10 @@ void updateService() {
     std::cout << "Service not found.\n";
 }
 
+/**
+ * @brief Deletes a service by ID from the services file.
+ * @note Prompts for a service ID, removes the service if found, and saves the updated list.
+ */
 void deleteService() {
     auto list = loadServices();
     std::cout << "Enter service ID to delete: ";
@@ -190,8 +230,11 @@ void deleteService() {
     }
 }
 
-// --- Service History ---
-
+/**
+ * @brief Loads all service history entries from the history file into a vector.
+ * @return std::vector<ServiceHistory> A vector containing all valid service history records.
+ * @note Skips empty or malformed lines and parses comma-separated service IDs.
+ */
 std::vector<ServiceHistory> loadHistory() {
     std::vector<ServiceHistory> list;
     std::ifstream ifs(HISTORY_FILE);
@@ -227,6 +270,11 @@ std::vector<ServiceHistory> loadHistory() {
     return list;
 }
 
+/**
+ * @brief Saves a list of service history entries to the history file.
+ * @param list A vector of ServiceHistory objects to save.
+ * @note Overwrites the existing file, storing service IDs as a comma-separated list.
+ */
 void saveHistory(const std::vector<ServiceHistory>& list) {
     std::ofstream ofs(HISTORY_FILE, std::ios::trunc);
     for (auto &h : list) {
@@ -239,6 +287,10 @@ void saveHistory(const std::vector<ServiceHistory>& list) {
     }
 }
 
+/**
+ * @brief Retrieves the current date and time as a formatted string.
+ * @return std::string The current date and time in the format "YYYY-MM-DD HH:MM:SS".
+ */
 std::string currentDateTime() {
     std::time_t t = std::time(nullptr);
     char buf[64];
@@ -246,12 +298,21 @@ std::string currentDateTime() {
     return buf;
 }
 
+/**
+ * @brief Adds a new service history entry to the history file.
+ * @param h The ServiceHistory object to add.
+ * @note Loads the existing history, appends the new entry, and saves the updated list.
+ */
 void addHistoryEntry(const ServiceHistory& h) {
     auto list = loadHistory();
     list.push_back(h);
     saveHistory(list);
 }
 
+/**
+ * @brief Displays all service history entries in a formatted table.
+ * @note Shows history ID, customer ID, vehicle ID, services, date, costs, and status with dynamically adjusted column widths.
+ */
 void viewServiceHistory() {
     auto list = loadHistory();
     if (list.empty()) {
@@ -320,6 +381,10 @@ void viewServiceHistory() {
     }
 }
 
+/**
+ * @brief Marks a service history entry as completed by ID.
+ * @note Prompts for a history ID, updates the status to "Completed" if found, and saves the updated list.
+ */
 void markHistoryCompleted() {
     auto list = loadHistory();
     std::cout << "Enter history ID to mark completed: ";

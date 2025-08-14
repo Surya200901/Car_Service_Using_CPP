@@ -21,7 +21,10 @@
 // Global silent mode flag
 bool silentMode = false;
 
-// Helper to clear test files
+/**
+ * @brief Clears all test files by truncating them.
+ * @note Used to reset test files before each test case to ensure a clean state.
+ */
 void clearTestFiles() {
     std::ofstream ofs;
     ofs.open(CUSTOMER_FILE, std::ios::trunc); ofs.close();
@@ -31,7 +34,10 @@ void clearTestFiles() {
     ofs.open(HISTORY_FILE, std::ios::trunc); ofs.close();
 }
 
-// Helper to set silent mode
+/**
+ * @brief Sets the silent mode flag to control test output verbosity.
+ * @param silent True to suppress individual test pass messages, false to enable them.
+ */
 void setSilentMode(bool silent) {
     silentMode = silent;
 }
@@ -39,6 +45,12 @@ void setSilentMode(bool silent) {
 // =============================
 // 📌 Customer Test Functions
 // =============================
+
+/**
+ * @brief Tests the nextCustomerId function for correct ID generation.
+ * @note Verifies initial ID is 1 and increments correctly after adding customers.
+ * @throws std::runtime_error If ID generation fails.
+ */
 void test_nextCustomerId() {
     clearTestFiles();
     if (nextCustomerId() != 1) throw std::runtime_error("Initial customer ID should be 1");
@@ -53,6 +65,11 @@ void test_nextCustomerId() {
     if (!silentMode) std::cout << "[PASS] test_nextCustomerId\n";
 }
 
+/**
+ * @brief Tests loading customers from an empty file.
+ * @note Verifies that an empty file returns an empty customer vector.
+ * @throws std::runtime_error If non-empty vector is returned.
+ */
 void test_loadCustomers_emptyFile() {
     clearTestFiles();
     auto customers = loadCustomers();
@@ -60,6 +77,11 @@ void test_loadCustomers_emptyFile() {
     if (!silentMode) std::cout << "[PASS] test_loadCustomers_emptyFile\n";
 }
 
+/**
+ * @brief Tests loading customers with valid data.
+ * @note Verifies that two customers are loaded correctly with matching attributes.
+ * @throws std::runtime_error If customer count or attributes do not match expected values.
+ */
 void test_loadCustomers_validData() {
     clearTestFiles();
     std::ofstream ofs(CUSTOMER_FILE);
@@ -78,6 +100,11 @@ void test_loadCustomers_validData() {
     if (!silentMode) std::cout << "[PASS] test_loadCustomers_validData\n";
 }
 
+/**
+ * @brief Tests loading customers with invalid or malformed data.
+ * @note Verifies that valid and empty-name customers are loaded, while malformed lines are skipped.
+ * @throws std::runtime_error If customer count or attributes do not match expected values.
+ */
 void test_loadCustomers_invalidData() {
     clearTestFiles();
     std::ofstream ofs(CUSTOMER_FILE);
@@ -94,6 +121,11 @@ void test_loadCustomers_invalidData() {
     if (!silentMode) std::cout << "[PASS] test_loadCustomers_invalidData\n";
 }
 
+/**
+ * @brief Tests saving customers to the file.
+ * @note Verifies that two customers are saved correctly with matching data.
+ * @throws std::runtime_error If saved data count or content does not match expected values.
+ */
 void test_saveCustomers() {
     clearTestFiles();
     std::vector<Customer> customers = {
@@ -116,6 +148,11 @@ void test_saveCustomers() {
     if (!silentMode) std::cout << "[PASS] test_saveCustomers\n";
 }
 
+/**
+ * @brief Tests finding a customer by ID.
+ * @note Verifies that a customer is found correctly and non-existent IDs return nullptr.
+ * @throws std::runtime_error If customer lookup fails or returns incorrect results.
+ */
 void test_findCustomerById() {
     clearTestFiles();
     std::vector<Customer> customers = {
@@ -134,6 +171,11 @@ void test_findCustomerById() {
     if (!silentMode) std::cout << "[PASS] test_findCustomerById\n";
 }
 
+/**
+ * @brief Tests deleting a customer by ID.
+ * @note Verifies that a customer is removed correctly and the remaining data is intact.
+ * @throws std::runtime_error If deletion fails or remaining data is incorrect.
+ */
 void test_deleteCustomer() {
     clearTestFiles();
     std::vector<Customer> customers = {
@@ -153,6 +195,11 @@ void test_deleteCustomer() {
     if (!silentMode) std::cout << "[PASS] test_deleteCustomer\n";
 }
 
+/**
+ * @brief Tests adding a customer with a duplicate ID.
+ * @note Verifies that duplicate IDs are not added, preserving the original customer.
+ * @throws std::runtime_error If duplicate ID is added or original data is overwritten.
+ */
 void test_addCustomer_duplicateId() {
     clearTestFiles();
     std::vector<Customer> customers = {
@@ -169,6 +216,11 @@ void test_addCustomer_duplicateId() {
     if (!silentMode) std::cout << "[PASS] test_addCustomer_duplicateId\n";
 }
 
+/**
+ * @brief Tests adding a customer with an empty name.
+ * @note Verifies that a customer with an empty name is added correctly.
+ * @throws std::runtime_error If customer with empty name is not added or data is incorrect.
+ */
 void test_addCustomer_emptyName() {
     clearTestFiles();
     std::vector<Customer> customers = {
@@ -186,6 +238,12 @@ void test_addCustomer_emptyName() {
 // =============================
 // 📌 Vehicle Test Functions
 // =============================
+
+/**
+ * @brief Tests the nextVehicleId function for correct ID generation.
+ * @note Verifies initial ID is 1 and increments correctly after adding vehicles.
+ * @throws std::runtime_error If ID generation fails.
+ */
 void test_nextVehicleId() {
     clearTestFiles();
     if (nextVehicleId() != 1) throw std::runtime_error("Initial vehicle ID should be 1");
@@ -200,6 +258,11 @@ void test_nextVehicleId() {
     if (!silentMode) std::cout << "[PASS] test_nextVehicleId\n";
 }
 
+/**
+ * @brief Tests loading vehicles from an empty file.
+ * @note Verifies that an empty file returns an empty vehicle vector.
+ * @throws std::runtime_error If non-empty vector is returned.
+ */
 void test_loadVehicles_emptyFile() {
     clearTestFiles();
     auto vehicles = loadVehicles();
@@ -207,6 +270,11 @@ void test_loadVehicles_emptyFile() {
     if (!silentMode) std::cout << "[PASS] test_loadVehicles_emptyFile\n";
 }
 
+/**
+ * @brief Tests loading vehicles with valid data.
+ * @note Verifies that two vehicles are loaded correctly with matching attributes.
+ * @throws std::runtime_error If vehicle count or attributes do not match expected values.
+ */
 void test_loadVehicles_validData() {
     clearTestFiles();
     std::ofstream ofs(VEHICLE_FILE);
@@ -224,6 +292,11 @@ void test_loadVehicles_validData() {
     if (!silentMode) std::cout << "[PASS] test_loadVehicles_validData\n";
 }
 
+/**
+ * @brief Tests saving vehicles to the file.
+ * @note Verifies that two vehicles are saved correctly with matching data.
+ * @throws std::runtime_error If saved data count or content does not match expected values.
+ */
 void test_saveVehicles() {
     clearTestFiles();
     std::vector<Vehicle> vehicles = {
@@ -246,6 +319,11 @@ void test_saveVehicles() {
     if (!silentMode) std::cout << "[PASS] test_saveVehicles\n";
 }
 
+/**
+ * @brief Tests deleting a vehicle by ID.
+ * @note Verifies that a vehicle is removed correctly and the remaining data is intact.
+ * @throws std::runtime_error If deletion fails or remaining data is incorrect.
+ */
 void test_deleteVehicle() {
     clearTestFiles();
     std::vector<Vehicle> vehicles = {
@@ -265,6 +343,11 @@ void test_deleteVehicle() {
     if (!silentMode) std::cout << "[PASS] test_deleteVehicle\n";
 }
 
+/**
+ * @brief Tests adding vehicles with duplicate registration numbers.
+ * @note Verifies that duplicate registration numbers are allowed and both vehicles are saved.
+ * @throws std::runtime_error If duplicate registration numbers are not handled correctly.
+ */
 void test_addVehicle_duplicateRegNo() {
     clearTestFiles();
     std::vector<Vehicle> vehicles = {
@@ -281,6 +364,12 @@ void test_addVehicle_duplicateRegNo() {
 // =============================
 // 📌 Service Test Functions
 // =============================
+
+/**
+ * @brief Tests the nextServiceId function for correct ID generation.
+ * @note Verifies initial ID is 1 and increments correctly after adding services.
+ * @throws std::runtime_error If ID generation fails.
+ */
 void test_nextServiceId() {
     clearTestFiles();
     if (nextServiceId() != 1) throw std::runtime_error("Initial service ID should be 1");
@@ -295,6 +384,11 @@ void test_nextServiceId() {
     if (!silentMode) std::cout << "[PASS] test_nextServiceId\n";
 }
 
+/**
+ * @brief Tests loading services from an empty file.
+ * @note Verifies that an empty file returns an empty service vector.
+ * @throws std::runtime_error If non-empty vector is returned.
+ */
 void test_loadServices_emptyFile() {
     clearTestFiles();
     auto services = loadServices();
@@ -302,6 +396,11 @@ void test_loadServices_emptyFile() {
     if (!silentMode) std::cout << "[PASS] test_loadServices_emptyFile\n";
 }
 
+/**
+ * @brief Tests loading services with valid data.
+ * @note Verifies that two services are loaded correctly with matching attributes.
+ * @throws std::runtime_error If service count or attributes do not match expected values.
+ */
 void test_loadServices_validData() {
     clearTestFiles();
     std::ofstream ofs(SERVICES_FILE);
@@ -318,6 +417,11 @@ void test_loadServices_validData() {
     if (!silentMode) std::cout << "[PASS] test_loadServices_validData\n";
 }
 
+/**
+ * @brief Tests saving services to the file.
+ * @note Verifies that two services are saved correctly with matching data.
+ * @throws std::runtime_error If saved data count or content does not match expected values.
+ */
 void test_saveServices() {
     clearTestFiles();
     std::vector<ServiceItem> services = {
@@ -340,6 +444,11 @@ void test_saveServices() {
     if (!silentMode) std::cout << "[PASS] test_saveServices\n";
 }
 
+/**
+ * @brief Tests the ensureDefaultServices function.
+ * @note Verifies that six default services are added to an empty file with correct attributes.
+ * @throws std::runtime_error If default service count or attributes do not match expected values.
+ */
 void test_ensureDefaultServices() {
     clearTestFiles();
     ensureDefaultServices();
@@ -353,6 +462,11 @@ void test_ensureDefaultServices() {
     if (!silentMode) std::cout << "[PASS] test_ensureDefaultServices\n";
 }
 
+/**
+ * @brief Tests deleting a service by ID.
+ * @note Verifies that a service is removed correctly and the remaining data is intact.
+ * @throws std::runtime_error If deletion fails or remaining data is incorrect.
+ */
 void test_deleteService() {
     clearTestFiles();
     std::vector<ServiceItem> services = {
@@ -372,6 +486,11 @@ void test_deleteService() {
     if (!silentMode) std::cout << "[PASS] test_deleteService\n";
 }
 
+/**
+ * @brief Tests adding a service with zero price.
+ * @note Verifies that a service with zero price is added correctly.
+ * @throws std::runtime_error If service with zero price is not added or data is incorrect.
+ */
 void test_addService_zeroPrice() {
     clearTestFiles();
     std::vector<ServiceItem> services = {
@@ -388,6 +507,12 @@ void test_addService_zeroPrice() {
 // =============================
 // 📌 Discount Test Functions
 // =============================
+
+/**
+ * @brief Tests the nextDiscountId function for correct ID generation.
+ * @note Verifies initial ID is 1 and increments correctly after adding discounts.
+ * @throws std::runtime_error If ID generation fails.
+ */
 void test_nextDiscountId() {
     clearTestFiles();
     if (nextDiscountId() != 1) throw std::runtime_error("Initial discount ID should be 1");
@@ -402,6 +527,11 @@ void test_nextDiscountId() {
     if (!silentMode) std::cout << "[PASS] test_nextDiscountId\n";
 }
 
+/**
+ * @brief Tests loading discounts from an empty file.
+ * @note Verifies that an empty file returns an empty discount vector.
+ * @throws std::runtime_error If non-empty vector is returned.
+ */
 void test_loadDiscounts_emptyFile() {
     clearTestFiles();
     auto discounts = loadDiscounts();
@@ -409,6 +539,11 @@ void test_loadDiscounts_emptyFile() {
     if (!silentMode) std::cout << "[PASS] test_loadDiscounts_emptyFile\n";
 }
 
+/**
+ * @brief Tests loading discounts with valid data.
+ * @note Verifies that two discounts are loaded correctly with matching attributes.
+ * @throws std::runtime_error If discount count or attributes do not match expected values.
+ */
 void test_loadDiscounts_validData() {
     clearTestFiles();
     std::ofstream ofs(DISCOUNT_FILE);
@@ -425,6 +560,11 @@ void test_loadDiscounts_validData() {
     if (!silentMode) std::cout << "[PASS] test_loadDiscounts_validData\n";
 }
 
+/**
+ * @brief Tests saving discounts to the file.
+ * @note Verifies that two discounts are saved correctly with matching data.
+ * @throws std::runtime_error If saved data count or content does not match expected values.
+ */
 void test_saveDiscounts() {
     clearTestFiles();
     std::vector<Discount> discounts = {
@@ -447,6 +587,11 @@ void test_saveDiscounts() {
     if (!silentMode) std::cout << "[PASS] test_saveDiscounts\n";
 }
 
+/**
+ * @brief Tests the ensureDefaultDiscounts function.
+ * @note Verifies that three default discounts are added to an empty file with correct attributes.
+ * @throws std::runtime_error If default discount count or attributes do not match expected values.
+ */
 void test_ensureDefaultDiscounts() {
     clearTestFiles();
     ensureDefaultDiscounts();
@@ -458,6 +603,11 @@ void test_ensureDefaultDiscounts() {
     if (!silentMode) std::cout << "[PASS] test_ensureDefaultDiscounts\n";
 }
 
+/**
+ * @brief Tests deleting a discount by ID.
+ * @note Verifies that a discount is removed correctly and the remaining data is intact.
+ * @throws std::runtime_error If deletion fails or remaining data is incorrect.
+ */
 void test_deleteDiscount() {
     clearTestFiles();
     std::vector<Discount> discounts = {
@@ -477,6 +627,11 @@ void test_deleteDiscount() {
     if (!silentMode) std::cout << "[PASS] test_deleteDiscount\n";
 }
 
+/**
+ * @brief Tests adding a discount with zero percent.
+ * @note Verifies that a discount with zero percent is added correctly.
+ * @throws std::runtime_error If discount with zero percent is not added or data is incorrect.
+ */
 void test_addDiscount_zeroPercent() {
     clearTestFiles();
     std::vector<Discount> discounts = {
@@ -493,6 +648,12 @@ void test_addDiscount_zeroPercent() {
 // =============================
 // 📌 Service History Test Functions
 // =============================
+
+/**
+ * @brief Tests the nextHistoryId function for correct ID generation.
+ * @note Verifies initial ID is 1 and increments correctly after adding history entries.
+ * @throws std::runtime_error If ID generation fails.
+ */
 void test_nextHistoryId() {
     clearTestFiles();
     if (nextHistoryId() != 1) throw std::runtime_error("Initial history ID should be 1");
@@ -507,6 +668,11 @@ void test_nextHistoryId() {
     if (!silentMode) std::cout << "[PASS] test_nextHistoryId\n";
 }
 
+/**
+ * @brief Tests loading service history from an empty file.
+ * @note Verifies that an empty file returns an empty history vector.
+ * @throws std::runtime_error If non-empty vector is returned.
+ */
 void test_loadHistory_emptyFile() {
     clearTestFiles();
     auto history = loadHistory();
@@ -514,6 +680,11 @@ void test_loadHistory_emptyFile() {
     if (!silentMode) std::cout << "[PASS] test_loadHistory_emptyFile\n";
 }
 
+/**
+ * @brief Tests loading service history with valid data.
+ * @note Verifies that a history entry is loaded correctly with matching attributes.
+ * @throws std::runtime_error If history count or attributes do not match expected values.
+ */
 void test_loadHistory_validData() {
     clearTestFiles();
     std::ofstream ofs(HISTORY_FILE);
@@ -533,6 +704,11 @@ void test_loadHistory_validData() {
     if (!silentMode) std::cout << "[PASS] test_loadHistory_validData\n";
 }
 
+/**
+ * @brief Tests saving service history to the file.
+ * @note Verifies that two history entries are saved correctly with matching data.
+ * @throws std::runtime_error If saved data count or content does not match expected values.
+ */
 void test_saveHistory() {
     clearTestFiles();
     std::vector<ServiceHistory> history = {
@@ -555,6 +731,11 @@ void test_saveHistory() {
     if (!silentMode) std::cout << "[PASS] test_saveHistory\n";
 }
 
+/**
+ * @brief Tests adding a service history entry.
+ * @note Verifies that a history entry is added correctly with matching attributes.
+ * @throws std::runtime_error If history entry is not added or data is incorrect.
+ */
 void test_addHistoryEntry() {
     clearTestFiles();
     ServiceHistory h = {1, 1, 1, {1, 2}, "2023-10-10 10:00:00", 2000, -1, 0, 2000, "Pending"};
@@ -568,6 +749,11 @@ void test_addHistoryEntry() {
     if (!silentMode) std::cout << "[PASS] test_addHistoryEntry\n";
 }
 
+/**
+ * @brief Tests adding a service history entry with empty service IDs.
+ * @note Verifies that a history entry with no service IDs is added correctly.
+ * @throws std::runtime_error If history entry with empty service IDs is not added or data is incorrect.
+ */
 void test_addHistoryEntry_emptyServiceIds() {
     clearTestFiles();
     ServiceHistory h = {1, 1, 1, {}, "2023-10-10 10:00:00", 0, -1, 0, 0, "Pending"};
@@ -579,9 +765,11 @@ void test_addHistoryEntry_emptyServiceIds() {
     if (!silentMode) std::cout << "[PASS] test_addHistoryEntry_emptyServiceIds\n";
 }
 
-// =============================
-// 📌 Unified Test Runner Macro
-// =============================
+/**
+ * @brief Macro to run a test function and report its result.
+ * @param testFunc The test function to execute.
+ * @note Runs the test in silent mode, catches exceptions, and outputs pass/fail status with error details.
+ */
 #define RUN_TEST(testFunc) \
     do { \
         try { \
@@ -595,9 +783,11 @@ void test_addHistoryEntry_emptyServiceIds() {
         } \
     } while(0)
 
-// =============================
-// 📌 Main Function
-// =============================
+/**
+ * @brief Main entry point for the unit test suite.
+ * @return int Exit code (0 for successful completion).
+ * @note Runs all test cases for customers, vehicles, services, discounts, and service history, then cleans up test files.
+ */
 int main() {
     std::cout << "===== Auto Service Management Unit Test Suite =====" << std::endl;
 

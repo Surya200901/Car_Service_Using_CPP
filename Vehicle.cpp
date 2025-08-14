@@ -14,6 +14,11 @@ const std::string VEHICLE_FILE = "tests/test_vehicles.txt";
 const std::string VEHICLE_FILE = "vehicles.txt";
 #endif
 
+/**
+ * @brief Determines the next available vehicle ID by finding the maximum ID in the vehicle file and incrementing it.
+ * @return int The next available vehicle ID.
+ * @note Reads from VEHICLE_FILE and handles malformed or empty lines gracefully.
+ */
 int nextVehicleId() {
     std::ifstream ifs(VEHICLE_FILE);
     int maxId = 0;
@@ -31,6 +36,11 @@ int nextVehicleId() {
     return maxId + 1;
 }
 
+/**
+ * @brief Loads all vehicles from the vehicle file into a vector.
+ * @return std::vector<Vehicle> A vector containing all valid vehicle records.
+ * @note Skips empty or malformed lines in the file.
+ */
 std::vector<Vehicle> loadVehicles() {
     std::vector<Vehicle> list;
     std::ifstream ifs(VEHICLE_FILE);
@@ -58,6 +68,11 @@ std::vector<Vehicle> loadVehicles() {
     return list;
 }
 
+/**
+ * @brief Saves a list of vehicles to the vehicle file, ensuring unique IDs.
+ * @param list A vector of Vehicle objects to save.
+ * @note Overwrites the existing file and keeps only the first occurrence of each vehicle ID.
+ */
 void saveVehicles(const std::vector<Vehicle>& list) {
     std::map<int, Vehicle> unique;
     for (const auto& v : list) {
@@ -72,6 +87,10 @@ void saveVehicles(const std::vector<Vehicle>& list) {
     }
 }
 
+/**
+ * @brief Interactively registers a new vehicle to the vehicle file.
+ * @note Prompts for customer ID, registration number, model, and color, assigns a new ID, and saves the updated list.
+ */
 void registerVehicleInteractive() {
     std::vector<Vehicle> list = loadVehicles();
     Vehicle v;
@@ -85,6 +104,11 @@ void registerVehicleInteractive() {
     std::cout << "Vehicle registered with ID: " << v.id << "\n";
 }
 
+/**
+ * @brief Displays all vehicles in a formatted table.
+ * @note Shows ID, customer ID, registration number, model, and color with dynamically adjusted column widths.
+ *       Prints a message if no vehicles are found.
+ */
 void viewVehicles() {
     auto list = loadVehicles();
     if (list.empty()) {
@@ -126,6 +150,11 @@ void viewVehicles() {
     }
 }
 
+/**
+ * @brief Updates an existing vehicle's details interactively.
+ * @note Prompts for a vehicle ID and allows updating registration number, model, and color.
+ *       Empty inputs preserve existing values.
+ */
 void updateVehicle() {
     auto list = loadVehicles();
     std::cout << "Enter vehicle ID to update: "; int id; std::cin >> id; std::cin.ignore();
@@ -145,6 +174,10 @@ void updateVehicle() {
     std::cout << "Vehicle not found.\n";
 }
 
+/**
+ * @brief Deletes a vehicle by ID from the vehicle file.
+ * @note Prompts for a vehicle ID, removes the vehicle if found, and saves the updated list.
+ */
 void deleteVehicle() {
     auto list = loadVehicles();
     std::cout << "Enter vehicle ID to delete: ";

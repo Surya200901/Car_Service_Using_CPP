@@ -1,3 +1,6 @@
-1|Oil|1200
-2|Oil Change|0
-3|kutyf|0
+1|Oil Change|1200
+2|Brake Inspection|800
+3|Wheel Alignment|600
+4|Car Wash|500
+5|Engine Tune-up|2000
+6|General Service|1200

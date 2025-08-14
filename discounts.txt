@@ -1,1 +1,3 @@
 2|New Year Offer|2|New Year Discount
+3|Diwali Special|15|Diwali Offer
+4|Summer Sale|5|Summer Sale

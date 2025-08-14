@@ -14,6 +14,11 @@ const std::string CUSTOMER_FILE = "tests/test_customers.txt";
 const std::string CUSTOMER_FILE = "customers.txt";
 #endif
 
+/**
+ * @brief Determines the next available customer ID by finding the maximum ID in the customer file and incrementing it.
+ * @return int The next available customer ID.
+ * @note Reads from CUSTOMER_FILE and handles malformed lines gracefully.
+ */
 int nextCustomerId() {
     std::ifstream ifs(CUSTOMER_FILE);
     int maxId = 0;
@@ -31,6 +36,11 @@ int nextCustomerId() {
     return maxId + 1;
 }
 
+/**
+ * @brief Loads all customers from the customer file into a vector.
+ * @return std::vector<Customer> A vector containing all valid customer records.
+ * @note Skips empty or malformed lines in the file.
+ */
 std::vector<Customer> loadCustomers() {
     std::vector<Customer> list;
     std::ifstream ifs(CUSTOMER_FILE);
@@ -57,6 +67,11 @@ std::vector<Customer> loadCustomers() {
     return list;
 }
 
+/**
+ * @brief Saves a list of customers to the customer file, ensuring unique IDs.
+ * @param list A vector of Customer objects to save.
+ * @note Overwrites the existing file and keeps only the first occurrence of each customer ID.
+ */
 void saveCustomers(const std::vector<Customer>& list) {
     std::map<int, Customer> unique;
     for (const auto& c : list) {
@@ -71,6 +86,10 @@ void saveCustomers(const std::vector<Customer>& list) {
     }
 }
 
+/**
+ * @brief Interactively adds a new customer to the customer file.
+ * @note Prompts the user for name, phone, and email, assigns a new ID, and saves the updated customer list.
+ */
 void addCustomerInteractive() {
     std::vector<Customer> list = loadCustomers();
     Customer c;
@@ -83,6 +102,10 @@ void addCustomerInteractive() {
     std::cout << "Customer added with ID: " << c.id << "\n";
 }
 
+/**
+ * @brief Displays all customers in a formatted table.
+ * @note Shows ID, name, phone, and email with dynamically adjusted column widths. Prints a message if no customers are found.
+ */
 void viewCustomers() {
     auto list = loadCustomers();
     if (list.empty()) {
@@ -120,11 +143,21 @@ void viewCustomers() {
     }
 }
 
+/**
+ * @brief Finds a customer by ID in a vector of customers.
+ * @param list A vector of Customer objects to search.
+ * @param id The ID of the customer to find.
+ * @return Customer* Pointer to the found customer, or nullptr if not found.
+ */
 Customer* findCustomerById(std::vector<Customer>& list, int id) {
     for (auto &c : list) if (c.id == id) return &c;
     return nullptr;
 }
 
+/**
+ * @brief Searches for a customer by ID and displays their details.
+ * @note Prompts the user for an ID and prints the customer's information if found, or a "not found" message otherwise.
+ */
 void searchCustomer() {
     auto list = loadCustomers();
     std::cout << "Enter customer ID to search: ";
@@ -138,6 +171,10 @@ void searchCustomer() {
     std::cout << "Customer not found.\n";
 }
 
+/**
+ * @brief Updates an existing customer's details interactively.
+ * @note Prompts for a customer ID and allows updating name, phone, and email. Empty inputs preserve existing values.
+ */
 void updateCustomer() {
     auto list = loadCustomers();
     std::cout << "Enter customer ID to update: ";
@@ -158,6 +195,10 @@ void updateCustomer() {
     std::cout << "Customer not found.\n";
 }
 
+/**
+ * @brief Deletes a customer by ID from the customer file.
+ * @note Prompts for a customer ID, removes the customer if found, and saves the updated list.
+ */
 void deleteCustomer() {
     auto list = loadCustomers();
     std::cout << "Enter customer ID to delete: ";

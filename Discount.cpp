@@ -14,6 +14,11 @@ const std::string DISCOUNT_FILE = "tests/test_discounts.txt";
 const std::string DISCOUNT_FILE = "discounts.txt";
 #endif
 
+/**
+ * @brief Determines the next available discount ID by finding the maximum ID in the discount file and incrementing it.
+ * @return int The next available discount ID.
+ * @note Reads from DISCOUNT_FILE and handles malformed or empty lines gracefully.
+ */
 int nextDiscountId() {
     std::ifstream ifs(DISCOUNT_FILE);
     int maxId = 0; std::string ln;
@@ -29,6 +34,11 @@ int nextDiscountId() {
     return maxId + 1;
 }
 
+/**
+ * @brief Loads all discounts from the discount file into a vector.
+ * @return std::vector<Discount> A vector containing all valid discount records.
+ * @note Skips empty or malformed lines in the file.
+ */
 std::vector<Discount> loadDiscounts() {
     std::vector<Discount> list;
     std::ifstream ifs(DISCOUNT_FILE);
@@ -55,6 +65,11 @@ std::vector<Discount> loadDiscounts() {
     return list;
 }
 
+/**
+ * @brief Saves a list of discounts to the discount file, ensuring unique IDs.
+ * @param list A vector of Discount objects to save.
+ * @note Overwrites the existing file and keeps only the first occurrence of each discount ID.
+ */
 void saveDiscounts(const std::vector<Discount>& list) {
     std::map<int, Discount> unique;
     for (const auto& d : list) {
@@ -69,6 +84,10 @@ void saveDiscounts(const std::vector<Discount>& list) {
     }
 }
 
+/**
+ * @brief Ensures default discounts are present in the discount file.
+ * @note Adds predefined discounts (New Year Offer, Diwali Special, Summer Sale) if the file is empty and saves them.
+ */
 void ensureDefaultDiscounts() {
     auto list = loadDiscounts();
     if (!list.empty()) return;
@@ -78,6 +97,11 @@ void ensureDefaultDiscounts() {
     saveDiscounts(list);
 }
 
+/**
+ * @brief Displays all discounts in a formatted table.
+ * @note Ensures default discounts exist, then shows ID, name, percent, and note with dynamically adjusted column widths.
+ *       Prints a message if no discounts are found (though unlikely due to ensureDefaultDiscounts).
+ */
 void viewDiscounts() {
     ensureDefaultDiscounts();
     auto list = loadDiscounts();
@@ -116,6 +140,10 @@ void viewDiscounts() {
     }
 }
 
+/**
+ * @brief Interactively adds a new discount to the discount file.
+ * @note Prompts the user for name, percent, and note, assigns a new ID, and saves the updated discount list.
+ */
 void addDiscountInteractive() {
     auto list = loadDiscounts();
     Discount d;
@@ -128,6 +156,10 @@ void addDiscountInteractive() {
     std::cout << "Discount added with ID: " << d.id << "\n";
 }
 
+/**
+ * @brief Updates an existing discount's details interactively.
+ * @note Prompts for a discount ID and allows updating name, percent, and note. Empty inputs or zero percent preserve existing values.
+ */
 void updateDiscount() {
     auto list = loadDiscounts();
     std::cout << "Enter discount ID to update: "; int id; std::cin >> id; std::cin.ignore();
@@ -145,6 +177,10 @@ void updateDiscount() {
     std::cout << "Discount not found.\n";
 }
 
+/**
+ * @brief Deletes a discount by ID from the discount file.
+ * @note Prompts for a discount ID, removes the discount if found, and saves the updated list.
+ */
 void deleteDiscount() {
     auto list = loadDiscounts();
     std::cout << "Enter discount ID to delete: "; int id; std::cin >> id; std::cin.ignore();

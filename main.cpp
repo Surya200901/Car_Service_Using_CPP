@@ -12,24 +12,51 @@
 #include "Discount.h"
 #include <algorithm>
 
+/**
+ * @brief Loads all services from the service file.
+ * @return std::vector<ServiceItem> A vector containing all valid service records.
+ * @note Wraps loadServices() for local use in main.cpp.
+ */
 std::vector<ServiceItem> loadServicesLocal() {
     return loadServices();
 }
 
+/**
+ * @brief Loads all discounts from the discount file.
+ * @return std::vector<Discount> A vector containing all valid discount records.
+ * @note Wraps loadDiscounts() for local use in main.cpp.
+ */
 std::vector<Discount> loadDiscountsLocal() {
     return loadDiscounts();
 }
 
+/**
+ * @brief Finds a service by ID in a vector of services.
+ * @param list A vector of ServiceItem objects to search.
+ * @param id The ID of the service to find.
+ * @return ServiceItem* Pointer to the found service, or nullptr if not found.
+ */
 ServiceItem* findServiceById(std::vector<ServiceItem>& list, int id) {
     for (auto &s : list) if (s.id == id) return &s;
     return nullptr;
 }
 
+/**
+ * @brief Finds a discount by ID in a vector of discounts.
+ * @param list A vector of Discount objects to search.
+ * @param id The ID of the discount to find.
+ * @return Discount* Pointer to the found discount, or nullptr if not found.
+ */
 Discount* findDiscountById(std::vector<Discount>& list, int id) {
     for (auto &d : list) if (d.id == id) return &d;
     return nullptr;
 }
 
+/**
+ * @brief Displays the main menu and captures user input.
+ * @return int The selected menu option (0 to 14).
+ * @note Prompts the user to choose an action for the car service management system.
+ */
 int mainMenu() {
     std::cout << "\n--- Car Service Management ---\n";
     std::cout << "1. Add Customer\n";
@@ -52,6 +79,11 @@ int mainMenu() {
     return opt;
 }
 
+/**
+ * @brief Manages the service booking process interactively.
+ * @note Prompts for customer and vehicle IDs, allows selection of services and an optional discount,
+ *       calculates the total cost, and saves the service history entry with a "Pending" status.
+ */
 void bookServiceFlow() {
     ensureDefaultServices();
     ensureDefaultDiscounts();
@@ -139,6 +171,10 @@ void bookServiceFlow() {
     std::cout << "Booking saved with History ID: " << h.historyId << "\n";
 }
 
+/**
+ * @brief Generates and displays a bill for a specified service history entry.
+ * @note Prompts for a history ID and prints details including customer ID, vehicle ID, services, costs, and status.
+ */
 void generateBillForHistory() {
     auto histories = loadHistory();
 
@@ -171,7 +207,11 @@ void generateBillForHistory() {
     std::cout << "History ID not found.\n";
 }
 
-// New function to delete all vehicles for a customer
+/**
+ * @brief Deletes all vehicles associated with a specified customer.
+ * @param customerId The ID of the customer whose vehicles should be deleted.
+ * @note Removes all matching vehicles from the vehicle list and saves the updated list.
+ */
 void deleteVehiclesForCustomer(int customerId) {
     auto list = loadVehicles();
     auto it = std::remove_if(list.begin(), list.end(), [customerId](const Vehicle& v){ return v.customerId == customerId; });
@@ -184,6 +224,11 @@ void deleteVehiclesForCustomer(int customerId) {
     }
 }
 
+/**
+ * @brief Main entry point for the car service management application.
+ * @return int Exit code (0 for successful termination).
+ * @note Initializes default services and discounts, then runs the main menu loop to handle user interactions.
+ */
 int main() {
     // Ensure default data
     ensureDefaultServices();
