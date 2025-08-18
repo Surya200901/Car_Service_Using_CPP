@@ -83,7 +83,7 @@ Each file uses `|` as a field separator.
 - All core logic is covered by unit tests in [tests/test.cpp](tests/test.cpp).
 - To run tests:
   ```sh
-  g++ -std=c++11 -o test.exe tests/test.cpp Customer.cpp Vehicle.cpp Service.cpp Discount.cpp
+  g++ -std=c++17 -DTEST_MODE -I. -o test tests/test.cpp Customer.cpp Discount.cpp Service.cpp Vehicle.cpp
   ./test.exe
   ```
 
