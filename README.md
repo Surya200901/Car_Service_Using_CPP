@@ -50,7 +50,7 @@ A C++ console application for managing a car service center, supporting customer
 2. **Build Command**
    - On Windows (MinGW):
      ```sh
-     g++ -std=c++11 -o main.exe main.cpp Customer.cpp Vehicle.cpp Service.cpp Discount.cpp
+     g++ *.cpp -o main
      ```
    - Or use the build tasks in [`.vscode/launch.json`](.vscode/launch.json).
 
