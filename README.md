@@ -1,4 +1,4 @@
-# CAR_SERVICE_NEW
+# CAR_SERVICE_MANAGEMENT_SYSTEM
 
 A C++ console application for managing a car service center, supporting customer, vehicle, service, discount, and service history management.
 
